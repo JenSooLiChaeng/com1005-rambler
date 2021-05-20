@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  *	RamblersSearch.java - class specialized to Ramblers
 */
@@ -65,6 +69,24 @@ public class RamblersSearch extends Search {
 			return 0;
 		} else {
 			return tmap[yGoal][xGoal] - tmap[y][x];
+		}
+	}
+	
+	/*
+	 * getPath, must be called after a successful search
+	 */
+	public ArrayList<Coords> getPath() {
+		if (currentNode.goalPredicate(this)) {
+			ArrayList<Coords> path = new ArrayList<Coords>();
+			SearchNode node = currentNode;
+			while(node != null) {
+				RamblersState state = (RamblersState) node.get_State();
+				path.add(0, state.getCoords());
+				node = node.getParent();
+			}
+			return path;
+		} else {
+			return null;
 		}
 	}
 	
