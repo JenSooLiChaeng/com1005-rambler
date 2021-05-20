@@ -37,26 +37,26 @@ public class RamblersState extends SearchState {
 		int depth = ramblersSearcher.getTerrainMap().getDepth();
 		int[][] tmap = ramblersSearcher.getTerrainMap().getTmap();
 		if (y > 0) {
-			successors.add(getNextState(y-1, x, tmap));
+			successors.add(getNextState(y-1, x, tmap, ramblersSearcher));
 		}
 		if (x > 0) {
-			successors.add(getNextState(y, x-1, tmap));
+			successors.add(getNextState(y, x-1, tmap, ramblersSearcher));
 		}
 		if (y < depth - 1) {
-			successors.add(getNextState(y+1, x, tmap));
+			successors.add(getNextState(y+1, x, tmap, ramblersSearcher));
 		}
 		if (x < width - 1) {
-			successors.add(getNextState(y, x+1, tmap));
+			successors.add(getNextState(y, x+1, tmap, ramblersSearcher));
 		}
 		return successors;
 	}
 	
-	private RamblersState getNextState(int y2, int x2, int[][] tmap) {
+	private RamblersState getNextState(int y2, int x2, int[][] tmap, RamblersSearch searcher) {
 		int lc = 1;
 		if (tmap[y2][x2] > tmap[y][x]) {
 			lc += tmap[y2][x2] - tmap[y][x];
 		}
-		int rc = 0;
+		int rc = searcher.getEstRemCost(y2, x2);
 		return new RamblersState(y2, x2, lc, rc);
 	}
 
@@ -64,6 +64,10 @@ public class RamblersState extends SearchState {
 	boolean sameState(SearchState n2) {
 		RamblersState n = (RamblersState) n2;
 		return n.x == x && n.y == y;
+	}
+	
+	public Coords getCoords() {
+		return new Coords(y, x);
 	}
 	
 	@Override
