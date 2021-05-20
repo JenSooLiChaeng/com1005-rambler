@@ -30,6 +30,18 @@ public class RamblersSearch extends Search {
 		this.aStarHeuristic = aStarHeuristic;
 		return runSearch(initState, "aStar");
 	}
+	
+	public float runSearchBBE(int y0, int x0) {
+		RamblersState initState = new RamblersState(y0, x0, 0, 0);
+		return runSearchE(initState, "branchAndBound");
+	}
+	
+	public float runSearchAStarE(int y0, int x0, String aStarHeuristic) {
+		RamblersState initState = new RamblersState(y0, x0, 0, 0);
+		this.aStarHeuristic = aStarHeuristic;
+		return runSearchE(initState, "aStar");
+	}
+	
 
 	public RamblersState getGoal() {
 		return this.goalState;
